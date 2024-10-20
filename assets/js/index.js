@@ -7,6 +7,8 @@ let itemLimit = 3;
 const categoryContainer = document.getElementById("category-container");
 const dishCardContainer = document.getElementById("dish-card-container");
 const cartContainer = document.getElementById("cart-container");
+const modalTitleContainer = document.getElementById("exampleModalLongLabel");
+const modalContainer = document.getElementById("modal-container");
 
 // ---------------
 function customFetch(url, renderFn, keyname = null) {
@@ -30,6 +32,11 @@ function fetchCategories() {
 function fetchCatgoryData(category) {
   let url = `https://www.themealdb.com/api/json/v1/1/filter.php?c=${category}`;
   customFetch(url, renderCategoryData, "meals");
+}
+
+function fetchDishDetails(id) {
+  let url = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`;
+  customFetch(url, renderDetailsModal, "meals");
 }
 // ---------------
 
@@ -57,7 +64,7 @@ function renderCategoryData({ result: data }) {
     newDiv.classList.add("col-span-3");
 
     // Added Event Listener for Cart Item
-    const cardCartButton = newDiv.querySelector("button");
+    const cardCartButton = newDiv.querySelector(".cart-btn");
     cardCartButton.addEventListener("click", () => {
       if (addedItems < itemLimit) {
         cartContainer.innerHTML += CartItem(d.strMealThumb, d.strMeal);
@@ -67,8 +74,32 @@ function renderCategoryData({ result: data }) {
         alert(`Already added ${itemLimit} items`);
       }
     });
+
+    // Added Event Listener for Details Modal
+    const detailsButton = newDiv.querySelector(".details-btn");
+    detailsButton.addEventListener("click", () => {
+      fetchDishDetails(d.idMeal);
+    });
+
     dishCardContainer.appendChild(newDiv);
   });
+}
+
+function renderDetailsModal({ result }) {
+  console.log(result);
+  let d = null;
+  if (result) {
+    d = result[0];
+  }
+  modalTitleContainer.innerText = d?.strMeal;
+  modalContainer.innerHTML = ModalBody(
+    d?.strMealThumb,
+    d?.strMeal,
+    d?.strInstructions,
+    d?.strTags
+  );
+  const modalTrigger = document.querySelector(".modal-trigger");
+  modalTrigger.click();
 }
 // ---------------
 
@@ -105,19 +136,35 @@ const DishCard = (dishImg, dishName) => `
 	  ></div>
 	</a>
   </div>
-  <div class="p-6 text-surface">
+  <div class="p-2 text-surface">
 	<h5 class="mb-2 font-medium leading-tight">${
     dishName.length >= 18 ? `${dishName.slice(0, 18) + "..."}` : dishName
   }</h5>
 	<p class="mb-4 text-base"></p>
+	<div class="flex items-center space-x-1">
 	<button
 	  type="button"
-	  class="inline-block rounded bg-blue-500 text-white px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal shadow-primary-3 transition duration-150 ease-in-out hover:bg-primary-accent-300 hover:shadow-primary-2 focus:bg-primary-accent-300 focus:shadow-primary-2 focus:outline-none focus:ring-0 active:bg-primary-600 active:shadow-primary-2"
+	  class="inline-block rounded bg-blue-500 text-white px-4 pb-[5px] pt-[6px] text-xs font-medium uppercase leading-normal shadow-primary-3 transition duration-150 ease-in-out hover:bg-primary-accent-300 hover:shadow-primary-2 focus:bg-primary-accent-300 focus:shadow-primary-2 focus:outline-none focus:ring-0 active:bg-primary-600 active:shadow-primary-2 cart-btn"
 	  data-twe-ripple-init
 	  data-twe-ripple-color="light"
 	>
-	  Button
+	  Add to Cart
 	</button>
+	<button
+	  type="button"
+	  class="inline-block rounded bg-blue-500 text-white px-4 pb-[5px] pt-[6px] text-xs font-medium uppercase leading-normal shadow-primary-3 transition duration-150 ease-in-out hover:bg-primary-accent-300 hover:shadow-primary-2 focus:bg-primary-accent-300 focus:shadow-primary-2 focus:outline-none focus:ring-0 active:bg-primary-600 active:shadow-primary-2 details-btn"
+	  data-twe-ripple-init
+	  data-twe-ripple-color="light"
+	>
+	Details
+	</button>
+	<span
+		class="modal-trigger"
+		data-twe-toggle="modal"
+		data-twe-target="#exampleModalLong"
+	></span>
+
+	</div>
   </div>
 </div>
 <!-- END of single card -->
@@ -142,6 +189,32 @@ const CartItem = (image, dishName) => `
   </div>
 </section>
 
+`;
+
+const ModalBody = (image, dishName, description, tags) => `
+	<figure>
+		<img src="${image}" alt="${dishName} image" />
+	</figure>
+	<article>
+	${
+    tags
+      ? `
+	<p class="my-4"><span class="font-bold">Tags</span> : ${tags
+    ?.split(",")
+    ?.map(
+      (t) => `<span
+  class="inline-block whitespace-nowrap rounded-[0.27rem] bg-slate-200 px-[0.65em] pb-[0.25em] pt-[0.35em] text-center align-baseline text-[0.75em] font-bold leading-none text-primary-700">
+  ${t}
+</span>`
+    )
+    .join("")}</p>
+
+		`
+      : ``
+  }
+	<p class="font-bold mt-4 mb-2">Description</p>
+	<p>${description}</p>
+	</article>
 `;
 
 // Main
