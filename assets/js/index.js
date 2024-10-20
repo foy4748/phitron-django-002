@@ -1,9 +1,12 @@
 // State Variables
+let addedItems = 0;
+let itemLimit = 3;
 
 // ---------------
 // Containers
 const categoryContainer = document.getElementById("category-container");
 const dishCardContainer = document.getElementById("dish-card-container");
+const cartContainer = document.getElementById("cart-container");
 
 // ---------------
 function customFetch(url, renderFn, keyname = null) {
@@ -52,6 +55,18 @@ function renderCategoryData({ result: data }) {
     const newDiv = document.createElement("div");
     newDiv.innerHTML = DishCard(d.strMealThumb, d.strMeal);
     newDiv.classList.add("col-span-3");
+
+    // Added Event Listener for Cart Item
+    const cardCartButton = newDiv.querySelector("button");
+    cardCartButton.addEventListener("click", () => {
+      if (addedItems < itemLimit) {
+        cartContainer.innerHTML += CartItem(d.strMealThumb, d.strMeal);
+        cardCartButton.setAttribute("disabled", true);
+        addedItems++;
+      } else {
+        alert(`Already added ${itemLimit} items`);
+      }
+    });
     dishCardContainer.appendChild(newDiv);
   });
 }
@@ -72,7 +87,7 @@ const NavItem = (category, categoryImg) => `
 const DishCard = (dishImg, dishName) => `
 <!-- Single Card -->
 <div
-  class="block rounded-lg bg-white shadow-secondary-1 dark:bg-surface-dark"
+  class="rounded-lg bg-white shadow-secondary-1 dark:bg-surface-dark h-full flex flex-col justify-between"
 >
   <div
 	class="relative overflow-hidden bg-cover bg-no-repeat"
@@ -91,7 +106,9 @@ const DishCard = (dishImg, dishName) => `
 	</a>
   </div>
   <div class="p-6 text-surface">
-	<h5 class="mb-2 text-xl font-medium leading-tight">${dishName}</h5>
+	<h5 class="mb-2 font-medium leading-tight">${
+    dishName.length >= 18 ? `${dishName.slice(0, 18) + "..."}` : dishName
+  }</h5>
 	<p class="mb-4 text-base"></p>
 	<button
 	  type="button"
@@ -104,6 +121,27 @@ const DishCard = (dishImg, dishName) => `
   </div>
 </div>
 <!-- END of single card -->
+`;
+
+const CartItem = (image, dishName) => `
+<section class="grid grid-cols-12">
+  <figure class="col-span-4">
+	<img
+	  class="w-full h-full object-cover"
+	  src="${image}"
+	  alt=""
+	/>
+  </figure>
+  <div class="col-span-8 ps-4 flex items-center">
+	<div>
+	<p class="font-bold">
+	${dishName.length >= 18 ? `${dishName.slice(0, 18) + "..."}` : dishName}
+	</p>
+	  <p>Price : $${(Math.random() * (99 - 10) + 10).toFixed(2)}</p>
+	</div>
+  </div>
+</section>
+
 `;
 
 // Main
