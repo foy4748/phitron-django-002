@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Foodies</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Tailwind Elements UI CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/tw-elements/css/tw-elements.min.css"
+    />
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com/3.3.0"></script>
+  </head>
+  <body>
+    <!-- Navbar -->
+    <!-- Main navigation container -->
+    <nav
+      class="relative flex w-full flex-nowrap items-center justify-between bg-zinc-50 py-2 shadow-dark-mild dark:bg-neutral-700 lg:flex-wrap lg:justify-start lg:py-4"
+      data-twe-navbar-ref
+    >
+      <div class="flex w-full flex-wrap items-center justify-between px-3">
+        <!-- Hamburger button for mobile view -->
+        <button
+          class="block border-0 bg-transparent px-2 text-black/50 hover:no-underline hover:shadow-none focus:no-underline focus:shadow-none focus:outline-none focus:ring-0 dark:text-neutral-200 lg:hidden"
+          type="button"
+          data-twe-collapse-init
+          data-twe-target="#navbarSupportedContent8"
+          aria-controls="navbarSupportedContent8"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <!-- Hamburger icon -->
+          <span
+            class="[&>svg]:w-7 [&>svg]:stroke-black/50 dark:[&>svg]:stroke-neutral-200"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M3 6.75A.75.75 0 013.75 6h16.5a.75.75 0 010 1.5H3.75A.75.75 0 013 6.75zM3 12a.75.75 0 01.75-.75h16.5a.75.75 0 010 1.5H3.75A.75.75 0 013 12zm0 5.25a.75.75 0 01.75-.75h16.5a.75.75 0 010 1.5H3.75a.75.75 0 01-.75-.75z"
+                clip-rule="evenodd"
+              />
+            </svg>
+          </span>
+        </button>
+
+        <!-- Collapsible navbar container -->
+        <div
+          class="!visible mt-2 hidden flex-grow basis-[100%] items-center justify-center lg:mt-0 lg:!flex lg:basis-auto"
+          id="navbarSupportedContent8"
+          data-twe-collapse-item
+        >
+          <!-- Left links -->
+          <ul
+            class="list-style-none flex flex-col ps-0 lg:mt-1 lg:flex-row"
+            data-twe-navbar-nav-ref
+            id="category-container"
+          >
+            <!-- Single Nav Item -->
+            <li class="mb-4 ps-2 lg:mb-0 lg:pe-1 lg:ps-0" data-twe-nav-item-ref>
+              <a
+                class="p-0 text-black/60 transition duration-200 hover:text-black/80 hover:ease-in-out focus:text-black/80 active:text-black/80 motion-reduce:transition-none dark:text-white/60 dark:hover:text-white/80 dark:focus:text-white/80 dark:active:text-white/80 lg:px-2"
+                href="#"
+                data-twe-nav-link-ref
+                >Link</a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <!-- End of Navbar -->
+    <!-- Main Section -->
+    <main>
+      <!-- Dish List section -->
+      <section class="grid grid-cols-12 gap-4" id="dish-card-container">
+        <!-- Single Card -->
+        <!-- <div -->
+        <!--   class="col-span-4 block rounded-lg bg-white shadow-secondary-1 dark:bg-surface-dark" -->
+        <!-- > -->
+        <!--   <div -->
+        <!--     class="relative overflow-hidden bg-cover bg-no-repeat" -->
+        <!--     data-twe-ripple-init -->
+        <!--     data-twe-ripple-color="light" -->
+        <!--   > -->
+        <!--     <img -->
+        <!--       class="rounded-t-lg w-full" -->
+        <!--       src="https://tecdn.b-cdn.net/img/new/standard/nature/186.jpg" -->
+        <!--       alt="" -->
+        <!--     /> -->
+        <!--     <a href="#!"> -->
+        <!--       <div -->
+        <!--         class="absolute bottom-0 left-0 right-0 top-0 h-full w-full overflow-hidden bg-[hsla(0,0%,98%,0.15)] bg-fixed opacity-0 transition duration-300 ease-in-out hover:opacity-100" -->
+        <!--       ></div> -->
+        <!--     </a> -->
+        <!--   </div> -->
+        <!--   <div class="p-6 text-surface dark:text-white"> -->
+        <!--     <h5 class="mb-2 text-xl font-medium leading-tight">Card title</h5> -->
+        <!--     <p class="mb-4 text-base"> -->
+        <!--       Some quick example text to build on the card title and make up the -->
+        <!--       bulk of the card's content. -->
+        <!--     </p> -->
+        <!--     <button -->
+        <!--       type="button" -->
+        <!--       class="inline-block rounded bg-primary px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-primary-3 transition duration-150 ease-in-out hover:bg-primary-accent-300 hover:shadow-primary-2 focus:bg-primary-accent-300 focus:shadow-primary-2 focus:outline-none focus:ring-0 active:bg-primary-600 active:shadow-primary-2 dark:shadow-black/30 dark:hover:shadow-dark-strong dark:focus:shadow-dark-strong dark:active:shadow-dark-strong" -->
+        <!--       data-twe-ripple-init -->
+        <!--       data-twe-ripple-color="light" -->
+        <!--     > -->
+        <!--       Button -->
+        <!--     </button> -->
+        <!--   </div> -->
+        <!-- </div> -->
+        <!-- END of single card -->
+      </section>
+    </main>
+    <!-- For Tailwind Elements UI -->
+    <script src="https://cdn.jsdelivr.net/npm/tw-elements/js/tw-elements.umd.min.js"></script>
+
+    <!-- CUSTOM JS -->
+    <script src="./assets/js/index.js" charset="utf-8"></script>
+  </body>
+</html>
