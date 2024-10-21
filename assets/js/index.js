@@ -1,7 +1,7 @@
 // State Variables
 let addedItems = 0;
 let itemLimit = 3;
-
+let debouncer = null;
 // ---------------
 // Containers
 const categoryContainer = document.getElementById("category-container");
@@ -9,6 +9,7 @@ const dishCardContainer = document.getElementById("dish-card-container");
 const cartContainer = document.getElementById("cart-container");
 const modalTitleContainer = document.getElementById("exampleModalLongLabel");
 const modalContainer = document.getElementById("modal-container");
+const searchField = document.getElementById("search-field");
 
 // ---------------
 function customFetch(url, renderFn, keyname = null) {
@@ -37,6 +38,11 @@ function fetchCatgoryData(category) {
 function fetchDishDetails(id) {
   let url = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`;
   customFetch(url, renderDetailsModal, "meals");
+}
+
+function fetchSearchedDishes(keyword) {
+  let url = `https://www.themealdb.com/api/json/v1/1/search.php?s=${keyword}`;
+  customFetch(url, renderCategoryData, "meals");
 }
 // ---------------
 
@@ -219,3 +225,12 @@ const ModalBody = (image, dishName, description, tags) => `
 
 // Main
 fetchCategories();
+
+// Event Listners
+searchField.addEventListener("keyup", function (e) {
+  let inputKeywords = e.target.value;
+  if (debouncer) clearTimeout(debouncer);
+  debouncer = setTimeout(() => {
+    fetchSearchedDishes(inputKeywords);
+  }, 800);
+});
