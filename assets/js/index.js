@@ -10,7 +10,7 @@ const cartContainer = document.getElementById("cart-container");
 const modalTitleContainer = document.getElementById("exampleModalLongLabel");
 const modalContainer = document.getElementById("modal-container");
 const searchField = document.getElementById("search-field");
-
+const selectedCartNum = document.getElementById("cart-selected");
 // ---------------
 function customFetch(url, renderFn, keyname = null) {
   fetch(url)
@@ -56,6 +56,7 @@ function renderCategories({ result: categoriesArr }) {
     // Category Click Event Listener
     newDiv.addEventListener("click", () => {
       fetchCatgoryData(catg.strCategory);
+      searchField.value = null;
     });
     categoryContainer.appendChild(newDiv);
     if (idx == 0) newDiv.click();
@@ -64,6 +65,14 @@ function renderCategories({ result: categoriesArr }) {
 
 function renderCategoryData({ result: data }) {
   dishCardContainer.innerHTML = "";
+  if (!data?.length) {
+    dishCardContainer.innerHTML = `
+			<div class="col-span-12 text-center">
+				<h1 class="mt-4 text-3xl font-extrabold">No Data Found</h1>
+			</div>
+		`;
+    return;
+  }
   data.forEach((d) => {
     const newDiv = document.createElement("div");
     newDiv.innerHTML = DishCard(d.strMealThumb, d.strMeal);
@@ -73,9 +82,11 @@ function renderCategoryData({ result: data }) {
     const cardCartButton = newDiv.querySelector(".cart-btn");
     cardCartButton.addEventListener("click", () => {
       if (addedItems < itemLimit) {
+        cartContainer.querySelector("h5").classList.add("hidden");
         cartContainer.innerHTML += CartItem(d.strMealThumb, d.strMeal);
         cardCartButton.setAttribute("disabled", true);
         addedItems++;
+        selectedCartNum.innerText = `(Selected ${addedItems})`;
       } else {
         alert(`Already added ${itemLimit} items`);
       }
